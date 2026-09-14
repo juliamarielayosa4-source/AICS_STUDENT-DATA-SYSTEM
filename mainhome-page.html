@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AICS - Student Data System</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #eef4ff;
+            color: #26364d;
+        }
+
+        /* header part */
+        .school-header {
+            background: linear-gradient(135deg, #dce8ff, #9db9e8);
+            color: #172b4d;
+            text-align: center;
+            padding: 25px 15px;
+            border-bottom: 5px solid #6f91c9;
+        }
+
+        .aics-logo {
+            width: 130px;
+            height: 130px;
+            object-fit: contain;
+            border-radius: 50%;
+            background: white;
+            padding: 5px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .school-header h1 {
+            margin: 12px 0 0;
+            font-size: 35px;
+            color: #17365d;
+            letter-spacing: 2px;
+        }
+
+        .school-header h2 {
+            margin: 5px 0;
+            font-size: 18px;
+            color: #294f7d;
+        }
+
+        .school-header p {
+            margin: 8px 0 0;
+            color: #40566f;
+            font-size: 14px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 30px auto;
+        }
+
+        /* main menu */
+        .menu {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .menu h2 {
+            margin-top: 0;
+            color: #5276b0;
+        }
+
+        .menu p {
+            color: #66778a;
+        }
+
+        /* buttons */
+        button {
+            border: none;
+            padding: 12px 18px;
+            margin: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #1e3a5f;
+            color: white;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #142a45;
+        }
+
+        .exit-btn {
+            background: #c62828;
+        }
+
+        .exit-btn:hover {
+            background: #9e1c1c;
+        }
+
+        /* sections */
+        .section {
+            display: none;
+            background: white;
+            margin-top: 20px;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            margin-top: 0;
+            color: #5276b0;
+        }
+
+        /* form inputs */
+        label {
+            display: block;
+            margin-top: 14px;
+            font-weight: bold;
+            color: #40566f;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #b9c9df;
+            border-radius: 6px;
+            font-size: 15px;
+            background: #f8fbff;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #6f91c9;
+            background: white;
+        }
+
+        /* student info box */
+        .student-card {
+            border: 1px solid #d1dceb;
+            padding: 18px;
+            margin: 12px 0;
+            border-radius: 10px;
+            background: #f7faff;
+        }
+
+        .student-card h3 {
+            margin-top: 0;
+            color: #5276b0;
+        }
+
+        .student-card p {
+            margin: 6px 0;
+        }
+
+        /* messages */
+        .message {
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 7px;
+            background: #e8eef8;
+        }
+
+        .success {
+            background: #e1f2e5;
+            color: #28623a;
+        }
+
+        .error {
+            background: #f7e3e3;
+            color: #8b3333;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            color: #66778a;
+            font-size: 13px;
+        }
+
+        /* for phone */
+        @media (max-width: 600px) {
+            .school-header h1 { font-size: 28px; }
+            .school-header h2 { font-size: 14px; }
+            .aics-logo { width: 100px; height: 100px; }
+            button { width: 100%; margin: 4px 0; }
+            .menu, .section { padding: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- header -->
+    <header class="school-header">
+        <img src="aics-logo.png" alt="AICS Logo" class="aics-logo">
+        <h1>AICS</h1>
+        <h2>ASIAN INSTITUTION OF COMPUTER SCIENCE</h2>
+        <p>Student Data Management System</p>
+    </header>
+
+    <div class="container">
+
+        <!-- main menu -->
+        <div class="menu" id="menu">
+            <h2>STUDENT DATA SYSTEM</h2>
+            <p>Please choose what you want to do.</p>
+
+            <button onclick="showSection('addSection')">1. Add Student Record</button>
+            <button onclick="viewStudents()">2. View All Records</button>
+            <button onclick="showSection('searchSection')">3. Search Student</button>
+            <button class="exit-btn" onclick="exitSystem()">4. Exit</button>
+        </div>
+
+        <!-- add student form -->
+        <div class="section" id="addSection">
+            <h2>Add New Student</h2>
+
+            <label>Student ID</label>
+            <input type="text" id="studentID" placeholder="ex. 251070">
+
+            <label>Full Name</label>
+            <input type="text" id="studentName" placeholder="Last Name, First Name">
+
+            <label>Course & Section</label>
+            <input type="text" id="courseSection" placeholder="BSCS BS1MA">
+
+            <label>Year Level</label>
+            <input type="text" id="year" placeholder="1st Year">
+
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="ex.juan@email.com">
+
+            <label>Contact Number</label>
+            <input type="text" id="contact" placeholder="09123456789">
+
+            <button onclick="addStudent()">Save Record</button>
+            <button onclick="backToMenu()">Back</button>
+
+            <div id="addMessage"></div>
+        </div>
+
+        <!-- view all list -->
+        <div class="section" id="viewSection">
+            <h2>List of Students</h2>
+            <div id="studentList"></div>
+            <button onclick="backToMenu()">Back</button>
+        </div>
+
+        <!-- search student -->
+        <div class="section" id="searchSection">
+            <h2>Find Student</h2>
+
+            <label>Enter Student ID</label>
+            <input type="text" id="searchID" placeholder="Type ID here">
+
+            <button onclick="searchStudent()">Search Now</button>
+            <button onclick="backToMenu()">Back</button>
+
+            <div id="searchResult"></div>
+        </div>
+
+        <!-- exit screen -->
+        <div class="section" id="exitSection">
+            <h2>Thank You!</h2>
+            <p>You have finished using the system.</p>
+            <button onclick="location.reload()">Start Over</button>
+        </div>
+
+    </div>
+
+    <footer>
+        AICS - Asian Institution of Computer Science | Student Project
+    </footer>
+
+    <script>
+        // store student data here
+        let students = [];
+
+        // show selected page only
+        function showSection(sectionID) {
+            document.getElementById('addSection').style.display = 'none';
+            document.getElementById('viewSection').style.display = 'none';
+            document.getElementById('searchSection').style.display = 'none';
+            document.getElementById('exitSection').style.display = 'none';
+            document.getElementById(sectionID).style.display = 'block';
+        }
+
+        // go back to main menu
+        function backToMenu() {
+            document.getElementById('addSection').style.display = 'none';
+            document.getElementById('viewSection').style.display = 'none';
+            document.getElementById('searchSection').style.display = 'none';
+            document.getElementById('exitSection').style.display = 'none';
+        }
+
+        // add new student record
+        function addStudent() {
+            let id = document.getElementById('studentID').value.trim();
+            let name = document.getElementById('studentName').value.trim();
+            let course = document.getElementById('courseSection').value.trim();
+            let year = document.getElementById('year').value.trim();
+            let email = document.getElementById('email').value.trim();
+            let contact = document.getElementById('contact').value.trim();
+            let msgBox = document.getElementById('addMessage');
+
+            // check empty fields
+            if (!id || !name || !course || !year || !email || !contact) {
+                msgBox.innerHTML = '<div class="message error">Please fill up everything!</div>';
+                return;
+            }
+
+            // check same ID
+            let exists = students.find(s => s.id === id);
+            if (exists) {
+                msgBox.innerHTML = '<div class="message error">This ID already exists!</div>';
+                return;
+            }
+
+            // save data
+            let newStudent = { id, name, course, year, email, contact };
+            students.push(newStudent);
+
+            msgBox.innerHTML = '<div class="message success">Record added successfully!</div>';
+
+            // clear form
+            document.getElementById('studentID').value = '';
+            document.getElementById('studentName').value = '';
+            document.getElementById('courseSection').value = '';
+            document.getElementById('year').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('contact').value = '';
+        }
+
+        // show all records
+        function viewStudents() {
+            showSection('viewSection');
+            let listBox = document.getElementById('studentList');
+            listBox.innerHTML = '';
+
+            if (students.length === 0) {
+                listBox.innerHTML = '<div class="message">No records saved yet.</div>';
+                return;
+            }
+
+            // list every student
+            students.forEach((s, num) => {
+                listBox.innerHTML += `
+                <div class="student-card">
+                    <h3>Student #${num+1}</h3>
+                    <p><strong>ID:</strong> ${s.id}</p>
+                    <p><strong>Name:</strong> ${s.name}</p>
+                    <p><strong>Course/Section:</strong> ${s.course}</p>
+                    <p><strong>Year:</strong> ${s.year}</p>
+                    <p><strong>Email:</strong> ${s.email}</p>
+                    <p><strong>Contact:</strong> ${s.contact}</p>
+                </div>`;
+            });
+        }
+
+        // search by ID
+        function searchStudent() {
+            let findId = document.getElementById('searchID').value.trim();
+            let resultBox = document.getElementById('searchResult');
+
+            if (!findId) {
+                resultBox.innerHTML = '<div class="message error">Type an ID first.</div>';
+                return;
+            }
+
+            let found = students.find(s => s.id === findId);
+            if (found) {
+                resultBox.innerHTML = `
+                <div class="student-card">
+                    <h3>Student Found ✅</h3>
+                    <p><strong>ID:</strong> ${found.id}</p>
+                    <p><strong>Name:</strong> ${found.name}</p>
+                    <p><strong>Course/Section:</strong> ${found.course}</p>
+                    <p><strong>Year:</strong> ${found.year}</p>
+                    <p><strong>Email:</strong> ${found.email}</p>
+                    <p><strong>Contact:</strong> ${found.contact}</p>
+                </div>`;
+            } else {
+                resultBox.innerHTML = '<div class="message error">Student not found in records.</div>';
+            }
+        }
+
+        // exit function
+        function exitSystem() {
+            document.getElementById('menu').style.display = 'none';
+            showSection('exitSection');
+        }
+    </script>
+
+</body>
+</html>
